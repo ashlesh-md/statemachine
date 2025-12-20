@@ -25,7 +25,7 @@ abstract class StateMachineWidget<
   void handleUISideEffect(
       BuildContext context, USF sideEffect, DispatchEvent<E> dispatchEvent);
 
-  void init(DispatchEvent<E> dispatchEvent) {}
+  void init(S state, DispatchEvent<E> dispatchEvent) {}
 
   Widget buildLayout(S state, DispatchEvent<E> dispatchEvent);
 
@@ -94,7 +94,7 @@ class _StateMachineWidgetState<E extends Event, S extends BaseState,
   void initState() {
     stateMachine = widget.injectStateMachine();
     state = stateMachine.getState();
-    widget.init((event) => stateMachine.dispatchEvent(event));
+    widget.init(state, (event) => stateMachine.dispatchEvent(event));
     stateMachine.getStateStream().stream.listen((event) {
       setState(() {
         state = event;
